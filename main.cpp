@@ -40,8 +40,7 @@ Grading guideline
 
     Correct and complete functionality 60%
     Run-time analysis 10%
-    Reasonable fault tolera
-    nce, i.e. it should not crash often. 10%
+    Reasonable fault tolerance, i.e. it should not crash often. 10%
     Makefile and Readme 10%
     Documentation and comments in the code 10%
 
@@ -96,7 +95,7 @@ First, combine the two into one set by using + (union) operator, and print
 #include <iostream>
 #include <fstream>  // FULL USAGE
 #include <string>   // FULL USAGE
-#include <cctype>   // FOR isdigit
+#include <cctype>   // FOR isdigit, iswhite
 #include <cstdlib>  // FOR atoi
 
 
@@ -111,63 +110,130 @@ using namespace main_savitch_3;
 
 
 // FUNCTION: FILE INPUT
-void readInput(set& arg_setA, set& arg_setB);
+bool validInput(set& arg_setA, set& arg_setB);
 
 
 
 int main()
 {
 
+    // EXIT CODE
+    int exitCode;
+    exitCode = 0;
+
     // DECLARE SET A, SET B
     set setA, setB;
 
     // INPUT FROM FILE; STORE AS TWO SETS
-    readInput(setA, setB);
+    // Assume that all inputs are integers and anything else should be rejected with an error message.
+    if (validInput(setA, setB))
+    {
 
-    // UNION SET A + SET B; PRINT RESULT
+/*DEBUG*/ cout << "INPUT VALID\n";
 
+        // UNION SET A + SET B; PRINT RESULT
 
-    // SUBTRACT SET A - SET B; PRINT RESULT
+        // SUBTRACT SET A - SET B; PRINT RESULT
 
-    return 0;
+        // EXIT WITH DEFAULT EXIT CODE
+    }
+    // ELSE DISPLAY ERROR
+    else
+    {
+        cout
+            << "WARNING: INVALID DATA OR INPUT FILE IS NOT ACCESSIBLE" << endl
+            << "THIS PROGRAM EXPECTS ONLY INTEGERS AND WHITESPACE ON LINES 1 AND 2 OF input.dat" << endl
+            << "PLEASE FIX THE INPUT FILE BEFORE RUNNING THE PROGRAM AGAIN" << endl
+            << "HAVE A NICE DAY" << endl;
+
+        // EXIT WITH EXIT CODE 1111
+        exitCode = 1111;
+    }
+
+    return exitCode;
 }
 
 
 
 
-void tokenize(std::string arg_string, set &arg_set)
+bool validDataTokenize(std::string arg_string, set &arg_set)
 {
+
+
     // STRING BUFFER = "";
     std::string buffer = "";
 
-    // FOR X = 0 TO LEN-1
-    for (int x = 0; x <= arg_string.length(); x++)
+    // VALIDITY
+    int validFlag;
+    validFlag = 1;
+
+
+
+    // FOR X = 0 TO LENGTH() - 1
+    for (int x = 0; x < arg_string.length(); x++)
     {
+
+
+///*DEBUG*/ cout << "RAW:   x = " << x << "   [" << arg_string[x] << "] = [" << int(arg_string[x]) << "]     VALID = " << validFlag << endl;
+
+
         // IF (STRING[X] == '-') OR (STRING[X] IS DIGIT)
         if (arg_string[x] == '-' || std::isdigit(arg_string[x]))
         {
+
+///*DEBUG*/ cout << "BUFFERING: " << arg_string[x] << endl;
             // THEN BUFFER += STRING[X]
             buffer += arg_string[x];
         }
-            // ELSE IF BUFFER != ""
+
+
+        // ABORT LOOP IF INVALID DATA
+        // ALL STRING[X] OTHER THAN '0' ... '9' AND '-' WILL RUN TEST
+        // THEREFORE, ANY CHAR OTHER THAN WHITESPACE IS INVALID
+        else if (!std::isspace(arg_string[x]))
+        {
+
+///*DEBUG*/ cout << "----------------INVALID DATA -> ABORT LOOP-----------------" << endl;
+
+            // SET VALID FLAG FALSE
+            validFlag = 0;
+
+            // LET X EXCEED ENDCONDITION
+            x = arg_string.length() + 1;
+
+            // FOR LOOP TERMINATED; GOTO END
+        }
+
+
+            // ELSE IF BUFFER != "" THEN INSERT PREVIOUS INTEGER ON VALID WHITESPACE
         else if (buffer != "")
         {
 
 ///*DEBUG*/ cout << "NOW INSERTING: " << atoi(buffer.c_str()) << endl;
 
             // THEN SET.INSERT(ATOI(BUFFER.C_STR()))
-            arg_set.insert(atoi(buffer.c_str()));
+            arg_set.insert(std::atoi(buffer.c_str()));
 
             // THEN BUFFER = ""
             buffer = "";
         }
+        // LABEL: VALID INTEGER DATA CONTINUES EXECUTION HERE
+
     }
+
+    // LABEL: END
+    return validFlag;
 }
 
 
 
-void readInput(set& arg_setA, set& arg_setB)
+bool validInput(set& arg_setA, set& arg_setB)
 {
+
+    // VALIDITY FLAG
+    int validFlag;
+    validFlag = 1;
+
     // OPEN FILE
     std::ifstream inputFile;
     inputFile.open("input.dat");
@@ -184,14 +250,27 @@ void readInput(set& arg_setA, set& arg_setB)
         // GETLINE TO STRING 2
         getline(inputFile, line2);
 
-///*DEBUG*/ cout << "\nLINE 1 = " << line1 << "\nLINE 2 = " << line2 << endl;
+        // GUARANTEE LAST NUMBER IN STRING INSERTED INTO SET BY ADDING WHITESPACE
+        line1 += " ";
+        line2 += " ";
 
-        // TOKENIZE STRINGS; INSERT TOKENS INTO OBJECTS
-        tokenize(line1, arg_setA);
-        tokenize(line2, arg_setB);
 
+/*DEBUG*/ cout << "\nLINE 1 = " << line1 << "\nLINE 2 = " << line2 << endl;
+
+        // TEST VALIDITY; TOKENIZE STRINGS; INSERT TOKENS INTO OBJECTS
+        if (!validDataTokenize(line1, arg_setA) || !validDataTokenize(line2, arg_setB))
+        {
+            validFlag = 0;
+        }
     }
+        // ELSE SET VALID FLAG FALSE
+    else validFlag = 0;
+
+
+
     // CLOSE FILE
     inputFile.close();
 
+    // RETURN VALID FLAG
+    return validFlag;
 }

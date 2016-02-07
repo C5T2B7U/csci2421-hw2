@@ -92,7 +92,7 @@ namespace main_savitch_3
 		{
 
 			// THEN RUN PREEXISTING INSERT SUBROUTINE
-/*DEBUG*/ cout << "      NOT DUPLICATE: " << entry << endl;
+///*DEBUG*/ cout << "      NOT DUPLICATE: " << entry << endl;
 			data[used] = entry;
 			++used;
 		}
