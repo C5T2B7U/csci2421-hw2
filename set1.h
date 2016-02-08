@@ -39,8 +39,8 @@
 //
 // MODIFICATION MEMBER FUNCTIONS for the set class:
 //   size_type erase(const value_type& target);
-//     Postcondition: All copies of target have been removed from the set.
-//     The return value is the number of copies removed (which could be zero).
+//     Postcondition: All the target has been removed from the set, if present.
+//     The return value is the number of copies removed (which could be either zero or one).
 //
 //   void erase_one(const value_type& target)
 //     Postcondition: If target was in the set, then one copy has been removed;
@@ -49,11 +49,16 @@
 //
 //   void insert(const value_type& entry)
 //     Precondition:  size( ) < CAPACITY.
-//     Postcondition: A new copy of entry has been added to the set.
+//     Postcondition: A new copy of entry has been added to the set if not already present.
+//     WARNING: DO NO VIOLATE PRECONDITION WITH OVERLOADED UNION OPERATOR
 //
 //   void operator +=(const set& addend)
 //     Precondition:  
-//     Postcondition: Each item in addend has been added to this set.
+//     Postcondition: Each item in addend has been inserted into this set if not already present.
+//
+//   void operator -=(const set& addend)
+//     Precondition:
+//     Postcondition: Each item in addend has been inserted into this set if not already present.
 //
 // CONSTANT MEMBER FUNCTIONS for the set class:
 //   size_type size( ) const
@@ -105,8 +110,10 @@ namespace main_savitch_3
             // IF SIZE IS EQUAL TO CAPACITY YOU CANNOT INSERT ANYTHING
         void insert(const value_type& entry);
 
-		void operator +=(const set& addend);
-		void operator -=(const set& addend);
+
+		void operator +=(const set& arg_set);
+		void operator -=(const set& arg_set);
+
 
         // CONSTANT MEMBER FUNCTIONS
         size_type size( ) const { return used; }
@@ -123,6 +130,7 @@ namespace main_savitch_3
         // value is false.
 
 */
+
         bool contains(const value_type& target) const;
         // Postcondition: The return value is true if
         // target is in the set; otherwise the return
@@ -135,22 +143,29 @@ namespace main_savitch_3
     private:
         value_type data[CAPACITY];  // The array to store items
         size_type used;             // How much of array is used
+
+
+	// END OF CLASS
     };
 
 
 
     // NONMEMBER FUNCTIONS for the set class
-	set operator +(const set& b1, const set& b2);
-	set operator -(const set& b1, const set& b2);
+	set operator +(const set& s1, const set& s2);
+	set operator -(const set& s1, const set& s2);
 
-	// FUNCTION: FILE INPUT
+
+	// FUNCTION: INPUT FILE DATA, CHECK VALIDITY, AND TOKENIZE
 	bool validInput(set& arg_setA, set& arg_setB);
 		// Precondition: An appropriately formatted input.dat must be in the working directory
 		// Postcondition: Returns true if valid data was correctly read from file and tokenized
 
+
+	// FUNCTION: CHECK VALIDITY OF FILE DATA, TOKENIZE, AND INSERT INTO OBJECT
 	bool validDataTokenize(std::string arg_string, set &arg_set);
 		// Precondition: Data was correctly read from file
 		// Postcondition: Returns true if data is valid after inserting data into set object
+
 }
 
 #endif

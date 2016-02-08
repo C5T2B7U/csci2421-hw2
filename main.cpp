@@ -152,8 +152,8 @@ int main()
     // ELSE DISPLAY ERROR
     else
     {
-        cout
-            << "WARNING: INVALID DATA OR INPUT FILE IS NOT ACCESSIBLE" << endl
+        cout << endl
+            << "WARNING: INVALID DATA OR INPUT FILE IS NOT ACCESSIBLE" << endl << endl
             << "THIS PROGRAM EXPECTS ONLY INTEGERS AND WHITESPACE ON LINES 1 AND 2 OF input.dat" << endl
             << "PLEASE FIX THE INPUT FILE BEFORE RUNNING THE PROGRAM AGAIN" << endl
             << "HAVE A NICE DAY" << endl;

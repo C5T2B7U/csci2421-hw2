@@ -1,3 +1,12 @@
+// BRIAN SUMNER
+// xxxxx6936
+// CSCI 2421-E01
+// SPRING 2016
+// HW2: 6936HW2->set1.cpp
+
+
+
+
 // FILE: set1.cpp
 // From Chapter 3 of Data Structures and Other Objects (Second Edition)
 // ________________________________________________________________________
@@ -29,15 +38,19 @@ using std::cout;
 using std::endl;
 
 
-
 #include <algorithm> // Provides copy function
 #include <cassert>   // Provides assert function
 #include "set1.h"
 //using namespace std;
 
+
+
+// BEGIN NAMESPACE
 namespace main_savitch_3
 {
+
 	// (Omitted for VC++ 6.0) const set::size_type set::CAPACITY;
+
 
 	// REPLACE ORIGINAL set ERASE FUNCTION:
 	set::size_type set::erase(const value_type &target)
@@ -87,27 +100,26 @@ namespace main_savitch_3
 			data[used] = entry;
 			++used;
 		}
-
 	}
 
 
 
 
-	void set::operator +=(const set& addend)
+	void set::operator +=(const set& arg_set)
 	// Library facilities used: algorithm, cassert
 	{
 
 		// OLD ASSERT NO LONGER VALID
-		// assert(size( ) + addend.size( ) <= CAPACITY);
+		// assert(size( ) + arg_set.size( ) <= CAPACITY);
 
 		// OLD METHOD NO LONGER VALID
-		// copy(addend.data, addend.data + addend.used, data + used);
-		// used += addend.used;
+		// copy(arg_set.data, arg_set.data + arg_set.used, data + used);
+		// used += arg_set.used;
 
 		size_type i;
 
-		for (i = 0; i < addend.size(); ++i)
-			this->insert(addend.data[i]);
+		for (i = 0; i < arg_set.size(); ++i)
+			this->insert(arg_set.data[i]);
 	}
 
 
@@ -181,7 +193,7 @@ namespace main_savitch_3
 
 
 
-    set operator +(const set& b1, const set& b2)
+    set operator +(const set& s1, const set& s2)
     // Library facilities used: cassert
     {
         set answer;
@@ -189,8 +201,8 @@ namespace main_savitch_3
 		// OLD ASSERT NO LONGER VALID
         // assert(b1.size( ) + b2.size( ) <= set::CAPACITY);
 
-		answer += b1;
-        answer += b2;
+		answer += s1;
+        answer += s2;
         return answer;
     }
 
