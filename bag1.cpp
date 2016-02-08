@@ -112,25 +112,31 @@ namespace main_savitch_3
 
 
 
-	void set::operator -=(const set& addend)
-	// Library facilities used: algorithm, cassert
+	void set::operator -=(const set& arg_set)
 	{
 
-		// OLD ASSERT NO LONGER VALID
-		// assert(size( ) + addend.size( ) <= CAPACITY);
+		set *bufferSet;
+		size_type i, loopVal;
 
-		// OLD METHOD NO LONGER VALID
-		// copy(addend.data, addend.data + addend.used, data + used);
-		// used += addend.used;
+		bufferSet = this;
+		loopVal = bufferSet->used;
 
-		set newSet;
-		size_type i;
+///*DEBUG*/ cout << "USED = " << bufferSet->used << endl;
 
-		for (i = 0; i < this->used; ++i)
-			if (!addend.contains(this->data[i]))
-				newSet.insert(this->data[i]);
+		for (i = 0; i < loopVal; ++i)
+		{
 
-//		return newSet;
+///*DEBUG*/ cout << "I = " << i << "     DATA = " << bufferSet->data[i] << endl;
+
+			if (arg_set.contains(bufferSet->data[i]))
+			{
+
+///*DEBUG*/ cout << "ERASING DATA[I] = " << bufferSet->data[i] << endl;
+
+				this->erase(bufferSet->data[i]);
+			}
+		}
+
 	}
 
 
@@ -199,7 +205,7 @@ set operator -(const set& s1, const set& s2)
 	// OLD ASSERT NO LONGET VALID
 	// assert(b1.size( ) + b2.size( ) <= set::CAPACITY);
 
-	answer += s1;
+	answer = s1;
 	answer -= s2;
 	return answer;
 }

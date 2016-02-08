@@ -134,14 +134,29 @@ int main()
         cout << "setA = " << setA << endl;
 		cout << "setB = " << setB << endl;
 
-        // UNION SET A + SET B; PRINT RESULT
-//        cout << "setA + setB = " << setA + setB << endl;
-		set setC;
-		setC = setA + setB;
-		cout << "setC = " << setC << endl;
+		cout << endl;
+
+
+		set setC, setD;
+		// UNION SET A + SET B; PRINT RESULT
+
+		cout << "setA + setB ==> " << endl << setA + setB << endl << endl;
+
+		setC = setA;
+		setC += setB;
+		cout << "setC = setA; setC += setB; ==> " << endl << setC << endl;
+
+		cout << endl;
+
 
         // SUBTRACT SET A - SET B; PRINT RESULT
-		cout << "setA - setB = " << setA - setB << endl;
+		cout << "setA - setB ==> " << endl << setA - setB << endl << endl;
+
+		setD = setA;
+		setD -= setB;
+		cout << "setD = setA; setD -= setB; ==> " << endl << setD << endl;
+
+		cout << endl;
 
 		cout << "ASSIGNMENT COMPLETE" << endl;
 
@@ -160,7 +175,7 @@ int main()
         exitCode = 1111;
     }
 
-/*DEBUG*/ cout << "END" << endl;
+///*DEBUG*/ cout << "END" << endl;
     return exitCode;
 }
 
