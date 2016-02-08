@@ -33,11 +33,11 @@ using namespace std;
 
 namespace main_savitch_3
 {
-    // (Omitted for VC++ 6.0) const set::size_type set::CAPACITY;
+	// (Omitted for VC++ 6.0) const set::size_type set::CAPACITY;
 
 	// REPLACE ORIGINAL BAG ERASE FUNCTION:
-    set::size_type set::erase(const value_type& target)
-    {
+	set::size_type set::erase(const value_type &target)
+	{
 		size_type many_removed = 0;
 
 		// IF TARGET ERASED THEN RETURN 1
@@ -46,9 +46,8 @@ namespace main_savitch_3
 	}
 
 
-
-    bool set::erase_one(const value_type& target)
-    {
+	bool set::erase_one(const value_type &target)
+	{
 		size_type index; // The location of target in the data array
 
 		// First, set index to the location of target in the data array,
@@ -66,16 +65,15 @@ namespace main_savitch_3
 		--used;
 		data[index] = data[used];
 		return true;
-    }
+	}
 
 
-
-    void set::insert(const value_type& entry)
-    // Library facilities used: cassert
-    {
+	void set::insert(const value_type &entry)
+	// Library facilities used: cassert
+	{
 
 		// DO NOT VIOLATE THIS ASSERT VIA UNION OPERATOR YOU HAVE BEEN WARNED!!!!!!!!!!1
-		assert(size( ) < CAPACITY);
+		assert(size() < CAPACITY);
 
 		// IF OBJECT DOES NOT CONTAIN ENTRY
 		if (!this->contains(entry))
@@ -86,14 +84,14 @@ namespace main_savitch_3
 			++used;
 		}
 
-    }
+	}
 
 
 
 
-    void set::operator +=(const set& addend)
-    // Library facilities used: algorithm, cassert
-    {
+	void set::operator +=(const set& addend)
+	// Library facilities used: algorithm, cassert
+	{
 
 		// OLD ASSERT NO LONGER VALID
 		// assert(size( ) + addend.size( ) <= CAPACITY);
@@ -102,24 +100,44 @@ namespace main_savitch_3
 		// copy(addend.data, addend.data + addend.used, data + used);
 		// used += addend.used;
 
+//		set newSet;
+		size_type i;
 
+		for (i = 0; i < addend.size(); ++i)
+//			newSet.insert(addend.data[i]);
+			this->insert(addend.data[i]);
+
+//		return newSet;
+	}
+
+
+
+	void set::operator -=(const set& addend)
+	// Library facilities used: algorithm, cassert
+	{
+
+		// OLD ASSERT NO LONGER VALID
+		// assert(size( ) + addend.size( ) <= CAPACITY);
+
+		// OLD METHOD NO LONGER VALID
+		// copy(addend.data, addend.data + addend.used, data + used);
+		// used += addend.used;
 
 		set newSet;
 		size_type i;
 
-		answer = 0;
-		for (i = 0; i < addend.size(); ++i)
-			newSet.insert(addend[i]);
+		for (i = 0; i < this->used; ++i)
+			if (!addend.contains(this->data[i]))
+				newSet.insert(this->data[i]);
 
-		return newSet;
-
-
-    }
+//		return newSet;
+	}
 
 
 
 
-/*	// FUNCTION HAS BEEN REPLACED WITH set::contains
+
+	/*	// FUNCTION HAS BEEN REPLACED WITH set::contains
     set::size_type set::count(const value_type& target) const
     {
         size_type answer;
@@ -134,7 +152,7 @@ namespace main_savitch_3
 */
 
 
-	bool set::contains(const value_type& target) const
+	bool set::contains(const value_type &target) const
 	{
 
 ///*STUB*/ cout << "\nRAN contains() - RETURN TRUE\n";
@@ -169,4 +187,43 @@ namespace main_savitch_3
         answer += b2;
         return answer;
     }
+
+
+
+
+set operator -(const set& s1, const set& s2)
+// Library facilities used: cassert
+{
+	set answer;
+
+	// OLD ASSERT NO LONGET VALID
+	// assert(b1.size( ) + b2.size( ) <= set::CAPACITY);
+
+	answer += s1;
+	answer -= s2;
+	return answer;
+}
+
+
+
+
+
+std::ostream &operator << (std::ostream&os, const set& arg_set)
+{
+	os << '{';
+
+	set::size_type i;
+
+	for (i = 0; i < arg_set.used; ++i)
+	{
+		os << arg_set.data[i];
+		if (i != arg_set.used - 1)
+			os << ", ";
+	}
+
+	os << '}';
+	return os;
+}
+
+
 }

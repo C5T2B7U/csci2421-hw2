@@ -129,11 +129,21 @@ int main()
     if (validInput(setA, setB))
     {
 
-/*DEBUG*/ cout << "INPUT VALID\n";
+/*DEBUG*/ cout << "\nINPUT VALID\n\n";
+
+        cout << "setA = " << setA << endl;
+		cout << "setB = " << setB << endl;
 
         // UNION SET A + SET B; PRINT RESULT
+//        cout << "setA + setB = " << setA + setB << endl;
+		set setC;
+		setC = setA + setB;
+		cout << "setC = " << setC << endl;
 
         // SUBTRACT SET A - SET B; PRINT RESULT
+		cout << "setA - setB = " << setA - setB << endl;
+
+		cout << "ASSIGNMENT COMPLETE" << endl;
 
         // EXIT WITH DEFAULT EXIT CODE
     }
@@ -150,6 +160,7 @@ int main()
         exitCode = 1111;
     }
 
+/*DEBUG*/ cout << "END" << endl;
     return exitCode;
 }
 

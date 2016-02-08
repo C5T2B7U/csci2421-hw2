@@ -89,10 +89,10 @@ namespace main_savitch_3
             // IF SIZE IS EQUAL TO CAPACITY YOU CANNOT INSERT ANYTHING
             // A FAILURE BY SUCH MEANS IS NOT UNEXPECTED
             // DO NOT INSERT "STUPID DATA"
-            // IF YOU ARE UNWILLING TO ABIDE BY THIS SIMPLE RULE YOU SHOULD QUIT YOUR JOB AND FLIP BURGERS
         void insert(const value_type& entry);
 
-        void operator +=(const set& addend);
+		void operator +=(const set& addend);
+		void operator -=(const set& addend);
 
         // CONSTANT MEMBER FUNCTIONS
         size_type size( ) const { return used; }
@@ -115,13 +115,20 @@ namespace main_savitch_3
         // value is false.
 
 
+		friend std::ostream &operator << (std::ostream&os, const set& arg_set);
+
+
     private:
         value_type data[CAPACITY];  // The array to store items
         size_type used;             // How much of array is used
     };
 
     // NONMEMBER FUNCTIONS for the set class
-    set operator +(const set& b1, const set& b2);
+	set operator +(const set& b1, const set& b2);
+	set operator -(const set& b1, const set& b2);
+//	void operator +=(const set& addend);
+//	void operator -=(const set& addend);
+
 }
 
 #endif
