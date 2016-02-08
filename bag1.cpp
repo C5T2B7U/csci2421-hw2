@@ -35,26 +35,15 @@ namespace main_savitch_3
 {
     // (Omitted for VC++ 6.0) const set::size_type set::CAPACITY;
 
+	// REPLACE ORIGINAL BAG ERASE FUNCTION:
     set::size_type set::erase(const value_type& target)
     {
-		size_type index = 0;
 		size_type many_removed = 0;
 
-		while (index < used)
-		{
-			if (data[index] == target)
-			{
-			--used;
-			data[index] = data[used];
-			++many_removed;
-			}
-			else
-			++index;
-		}
-
+		// IF TARGET ERASED THEN RETURN 1
+		if (this->erase_one(target)) ++many_removed;
 		return many_removed;
-    }
-
+	}
 
 
 
@@ -81,16 +70,16 @@ namespace main_savitch_3
 
 
 
-
     void set::insert(const value_type& entry)
     // Library facilities used: cassert
-    {   
-        assert(size( ) < CAPACITY);
+    {
+
+		// DO NOT VIOLATE THIS ASSERT VIA UNION OPERATOR YOU HAVE BEEN WARNED!!!!!!!!!!1
+		assert(size( ) < CAPACITY);
 
 		// IF OBJECT DOES NOT CONTAIN ENTRY
 		if (!this->contains(entry))
 		{
-
 			// THEN RUN PREEXISTING INSERT SUBROUTINE
 ///*DEBUG*/ cout << "      NOT DUPLICATE: " << entry << endl;
 			data[used] = entry;
@@ -105,16 +94,32 @@ namespace main_savitch_3
     void set::operator +=(const set& addend)
     // Library facilities used: algorithm, cassert
     {
-		assert(size( ) + addend.size( ) <= CAPACITY);
-	
-		copy(addend.data, addend.data + addend.used, data + used);
-		used += addend.used;
+
+		// OLD ASSERT NO LONGER VALID
+		// assert(size( ) + addend.size( ) <= CAPACITY);
+
+		// OLD METHOD NO LONGER VALID
+		// copy(addend.data, addend.data + addend.used, data + used);
+		// used += addend.used;
+
+
+
+		set newSet;
+		size_type i;
+
+		answer = 0;
+		for (i = 0; i < addend.size(); ++i)
+			newSet.insert(addend[i]);
+
+		return newSet;
+
+
     }
 
 
 
 
-/*
+/*	// FUNCTION HAS BEEN REPLACED WITH set::contains
     set::size_type set::count(const value_type& target) const
     {
         size_type answer;
@@ -157,9 +162,10 @@ namespace main_savitch_3
     {
         set answer;
 
-        assert(b1.size( ) + b2.size( ) <= set::CAPACITY);
+		// OLD ASSERT NO LONGET VALID
+        // assert(b1.size( ) + b2.size( ) <= set::CAPACITY);
 
-        answer += b1; 
+		answer += b1;
         answer += b2;
         return answer;
     }

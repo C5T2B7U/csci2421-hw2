@@ -66,8 +66,10 @@
 namespace main_savitch_3
 {
     class set
-    { 
+    {
+
     public:
+
         // TYPEDEFS and MEMBER CONSTANTS
 	// * For VC++ 6.0 we are using size_t instead of std::size_t. And we
 	// * have defined CAPACITY using an enum instead of a static member
@@ -80,8 +82,18 @@ namespace main_savitch_3
         // MODIFICATION MEMBER FUNCTIONS
         size_type erase(const value_type& target);
         bool erase_one(const value_type& target);
+
+        // DO NOT VIOLATE THE ASSERT IN THIS FUNCTION VIA UNION OPERATOR YOU HAVE BEEN WARNED!!!!!!!!!!1
+            // THIS ASSERT IS AS FOLLOWS:
+            // assert(size( ) < CAPACITY);
+            // IF SIZE IS EQUAL TO CAPACITY YOU CANNOT INSERT ANYTHING
+            // A FAILURE BY SUCH MEANS IS NOT UNEXPECTED
+            // DO NOT INSERT "STUPID DATA"
+            // IF YOU ARE UNWILLING TO ABIDE BY THIS SIMPLE RULE YOU SHOULD QUIT YOUR JOB AND FLIP BURGERS
         void insert(const value_type& entry);
+
         void operator +=(const set& addend);
+
         // CONSTANT MEMBER FUNCTIONS
         size_type size( ) const { return used; }
 
